@@ -7,7 +7,7 @@ from .managers import FollowManager
 
 
 class Follow(models.Model):
-    user = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL', 'auth.User'), related_name='following')
+    user = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL', 'auth.User'))
     created = models.DateTimeField(auto_now_add=True)
 
     # generic foreign key to target

@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 from generic_follow.models import Follow
-from .models import Band
+from .models import Band, Photographer
 
 
 class GenericFollowUserMixinTests(TestCase):
@@ -11,6 +11,7 @@ class GenericFollowUserMixinTests(TestCase):
             password='password'
         )
         self.band = Band.objects.create(name='Foals')
+        self.photog = Photographer.objects.create(name='Henri Cartier-Bresson')
 
     def test_user_can_follow_band(self):
         self.user.follow(self.band)
@@ -55,6 +56,19 @@ class GenericFollowUserMixinTests(TestCase):
 
         self.user.unfollow(self.band)
         self.assertFalse(self.user.is_following(self.band))
+
+    def test_get_follow_set_returns_all_obejcts_a_user_is_following(self):
+        self.user.follow(self.band)
+        self.user.follow(self.photog)
+
+        result = self.user.get_follow_set()
+        self.assertEqual(result, [self.band, self.photog])
+
+    def test_get_follow_set_filters_by_model_type_if_provided(self):
+        self.user.follow(self.band)
+        self.user.follow(self.photog)
+
+        self.assertEqual(self.user.get_follow_set(Photographer), [self.photog])
 
 
 class GenericFollowManagerTests(TestCase):

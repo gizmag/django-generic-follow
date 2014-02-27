@@ -71,6 +71,26 @@ class GenericFollowUserMixinTests(TestCase):
         self.assertEqual(self.user.get_follow_set(Photographer), [self.photog])
 
 
+class GenericFollowTargetMixin(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username='john',
+            password='password'
+        )
+        self.user2 = User.objects.create_user(
+            username='jane',
+            password='password'
+        )
+        self.band = Band.objects.create(name='Foals')
+
+    def test_get_follower_set_returns_followers(self):
+        self.user.follow(self.band)
+        self.assertEqual(1, len(self.band.get_follower_set()))
+
+        self.user2.follow(self.band)
+        self.assertEqual(2, len(self.band.get_follower_set()))
+
+
 class GenericFollowManagerTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(

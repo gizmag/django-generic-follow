@@ -44,8 +44,10 @@ class UserFollowMixin(object):
 class TargetFollowMixin(object):
 
     def get_follower_set(self):
+        content_type = ContentType.objects.get_for_model(self)
         follows = Follow.objects.filter(
-            target=self
+            target_content_type=content_type,
+            target_object_id=self.id,
         ).prefetch_related('user')
 
         return [x.user for x in follows]

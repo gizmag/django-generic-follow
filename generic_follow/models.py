@@ -16,3 +16,13 @@ class Follow(models.Model):
     target = generic.GenericForeignKey('target_content_type', 'target_object_id')
 
     objects = FollowManager()
+
+
+# apply user model mixins to auth.User model
+if getattr(settings, 'AUTH_USER_MODEL', 'auth.User') == 'auth.User':
+    from .model_mixins import UserFollowMixin
+    from django.contrib.auth.models import User
+
+    for name, method in UserFollowMixin.__dict__:
+        if not name.startswith('__'):
+            User.add_to_class(name, method)

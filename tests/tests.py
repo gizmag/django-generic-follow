@@ -76,3 +76,15 @@ class GenericFollowManagerTests(TestCase):
 
         self.assertTrue(Follow.objects.filter(user=self.user).exists())
         self.assertTrue(Follow.objects.filter(user=self.user2).exists())
+
+    def test_delete_batch_deletes_follows_for_all_users_passed_in_related_to_target(self):
+        band2 = Band.objects.create(name='Nirvana')
+
+        Follow.objects.create_batch(users=[self.user, self.user2], target=self.band)
+        self.user.follow(band2)
+
+        self.assertEqual(3, Follow.objects.count())
+
+        Follow.objects.delete_batch(users=[self.user, self.user2], target=self.band)
+
+        self.assertEqual(1, Follow.objects.count())

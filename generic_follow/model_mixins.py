@@ -5,6 +5,17 @@ from .models import Follow
 
 class UserFollowMixin(object):
 
+    def get_follow_set(self, model=None):
+        qs = Follow.objects.filter(
+            user=self
+        ).prefetch_related('target')
+
+        if model:
+            model_type = ContentType.objects.get_for_model(model)
+            qs = qs.filter(target_content_type=model_type)
+
+        return [x.target for x in qs]
+
     def follow(self, item):
         item_type = ContentType.objects.get_for_model(item)
         Follow.objects.get_or_create(

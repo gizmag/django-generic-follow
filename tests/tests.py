@@ -13,7 +13,7 @@ class GenericFollowModelTests(TestCase):
         self.band = Band.objects.create(name='Foals')
 
     def test_user_can_follow_band(self):
-        self.user.follow(band)
+        self.user.follow(self.band)
 
         follow = Follow.objects.all()[0]
 

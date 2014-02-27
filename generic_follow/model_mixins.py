@@ -39,3 +39,13 @@ class UserFollowMixin(object):
             target_content_type=item_type,
             target_object_id=item.pk
         ).exists()
+
+
+class TargetFollowMixin(object):
+
+    def get_follower_set(self):
+        follows = Follow.objects.filter(
+            target=self
+        ).prefetch_related('user')
+
+        return [x.user for x in follows]

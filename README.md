@@ -77,6 +77,31 @@ user.is_following(band)
 # true/false
 ```
 
+### Retrieval Methods
+
+To see all model instances that a user is following call the
+`user.get_follow_set` method.
+
+```python
+user.get_follow_set()
+# [<Band: foals>]
+```
+
+Optionally, the `model` kwarg can be provided to only return followed instances
+of that model type
+
+```python
+user.get_follow_set(Photographer)
+# []
+```
+
+On the follow target, `model.get_follower_set` can be called to retrieve all
+followers
+
+```python
+band.get_follower_set()
+```
+
 ### Batch Operations
 To make a list of users follow a given model instance call the `create_batch`
 manager method
@@ -104,31 +129,6 @@ Follow.objects.update_batch(
     users_follow=[(user, True), (user2, False)]
 )
 # user will now be following foals, user2 will now not be following foals
-```
-
-# Retrieval Methods
-
-To see all model instances that a user is following call the
-`user.get_follow_set` method.
-
-```python
-user.get_follow_set()
-# [<Band: foals>]
-```
-
-Optionally, the `model` kwarg can be provided to only return followed instances
-of that model type
-
-```python
-user.get_follow_set(Photographer)
-# []
-```
-
-On the follow target, `model.get_follower_set` can be called to retrieve all
-followers
-
-```python
-band.get_follower_set()
 ```
 
 ## Contributions

@@ -21,6 +21,7 @@ if not settings.configured:
             'tests',
         ),
         TEST_RUNNER='django_nose.NoseTestSuiteRunner',
+        PASSWORD_HASHERS = ('django.contrib.auth.hashers.MD5PasswordHasher',)
     )
 
 

@@ -42,8 +42,10 @@ class FollowManager(models.Manager):
 
     def update_batch(self, users_follow, target):
         Follow = get_model('generic_follow', 'Follow')
+        target_content_type = ContentType.objects.get_for_model(target)
         existing_follows = Follow.objects.filter(
-            target=target
+            target_content_type=target_content_type,
+            target_object_id=target.pk
         ).values_list(
             'pk',
             flat=True

@@ -4,7 +4,7 @@ from generic_follow.models import Follow
 from .models import Band
 
 
-class GenericFollowModelTests(TestCase):
+class GenericFollowUserMixinTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(
             username='john',

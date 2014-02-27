@@ -23,6 +23,6 @@ if getattr(settings, 'AUTH_USER_MODEL', 'auth.User') == 'auth.User':
     from .model_mixins import UserFollowMixin
     from django.contrib.auth.models import User
 
-    for name, method in UserFollowMixin.__dict__:
+    for name, method in UserFollowMixin.__dict__.items():
         if not name.startswith('__'):
             User.add_to_class(name, method)

@@ -19,3 +19,23 @@ class GenericFollowModelTests(TestCase):
 
         self.assertEqual(follow.user, self.user)
         self.assertEqual(follow.target, self.band)
+
+    def test_user_can_unfollow_successfully(self):
+        self.user.follow(self.band)
+
+        self.assertEqual(1, Follow.objects.count())
+
+        self.user.unfollow(self.band)
+
+        self.assertEqual(0, Follow.objects.count())
+
+    def test_is_following_returns_correct_result(self):
+        self.assertFalse(self.user.is_following(self.band))
+
+        self.user.follow(self.band)
+
+        self.assertTrue(self.user.is_following(self.band))
+
+        self.user.unfollow(self.band)
+
+        self.assertFalse(self.user.is_following(self.band))

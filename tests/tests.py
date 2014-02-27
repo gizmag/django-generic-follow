@@ -102,3 +102,33 @@ class GenericFollowManagerTests(TestCase):
         Follow.objects.delete_batch(users=[self.user, self.user2], target=self.band)
 
         self.assertEqual(1, Follow.objects.count())
+
+    def test_update_batch_with_user_not_currently_following_and_set_to_true_creates_follow(self):
+        Follow.objects.update_batch(
+            users_follow=[(self.user, True)],
+            target=self.band
+        )
+        self.assertEqual(1, Follow.objects.count())
+
+    def test_update_batch_with_user_not_currently_following_and_set_to_false_does_nothing(self):
+        Follow.objects.update_batch(
+            users_follow=[(self.user, False)],
+            target=self.band
+        )
+        self.assertEqual(0, Follow.objects.count())
+
+    def test_update_batch_with_user_currently_following_and_set_to_false_deletes_follow(self):
+        self.user.follow(self.band)
+        Follow.objects.update_batch(
+            users_follow=[(self.user, False)],
+            target=self.band
+        )
+        self.assertEqual(0, Follow.objects.count())
+
+    def test_update_batch_with_user_currently_following_and_set_to_true_does_nothing(self):
+        self.user.follow(self.band)
+        Follow.objects.update_batch(
+            users_follow=[(self.user, True)],
+            target=self.band
+        )
+        self.assertEqual(1, Follow.objects.count())

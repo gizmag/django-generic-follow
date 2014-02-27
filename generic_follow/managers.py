@@ -30,3 +30,21 @@ class FollowManager(models.Manager):
                 )
             )
         self.objects.bulk_create(follows)
+
+    def update_batch(self, users_follow, target):
+        Follow = get_model('generic_follow', 'Follow')
+        existing_follows = Follow.objects.filter(
+            target=target
+        ).values_list(
+            'pk',
+            flat=True
+        )
+        pending_create_users = list()
+        pending_delete_users = list()
+        for user, follow in users_follow:
+            if follow and user.pk not in existing_follows:
+                pending_create_users.append(user)
+            elif not follow and user.pk in existing_follows:
+                pending_delete_users.append(user)
+        self.delete_batch(pending_delete_users, target)
+        self.create_batch(pending_create_users, target)

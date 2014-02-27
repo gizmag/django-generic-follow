@@ -3,6 +3,8 @@ from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
+from .managers import FollowManager
+
 
 class Follow(models.Model):
     user = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL', 'auth.User'), related_name='following')
@@ -12,3 +14,5 @@ class Follow(models.Model):
     target_content_type = models.ForeignKey(ContentType)
     target_object_id = models.PositiveIntegerField()
     target = generic.GenericForeignKey('target_content_type', 'target_object_id')
+
+    objects = FollowManager()

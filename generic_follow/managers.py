@@ -22,11 +22,11 @@ class FollowManager(models.Manager):
         Follow = get_model('generic_follow', 'Follow')
         follows = list()
         for user in users:
-            list.append(
+            follows.append(
                 Follow(
                     user=user,
                     target_content_type=target_content_type,
-                    target_id=target.pk
+                    target_object_id=target.pk
                 )
             )
-        self.objects.bulk_create(follows)
+        self.bulk_create(follows)

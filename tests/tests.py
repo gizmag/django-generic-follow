@@ -55,3 +55,24 @@ class GenericFollowUserMixinTests(TestCase):
 
         self.user.unfollow(self.band)
         self.assertFalse(self.user.is_following(self.band))
+
+
+class GenericFollowManagerTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username='john',
+            password='password'
+        )
+        self.user2 = User.objects.create_user(
+            username='jane',
+            password='password'
+        )
+        self.band = Band.objects.create(name='Foals')
+
+    def test_create_batch_creates_follows_for_all_users_passed_in(self):
+        Follow.objects.create_batch(users=[self.user, self.user2], target=self.band)
+
+        self.assertEqual(2, Follow.objects.count())
+
+        self.assertTrue(Follow.objects.filter(user=self.user).exists())
+        self.assertTrue(Follow.objects.filter(user=self.user2).exists())

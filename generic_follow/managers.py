@@ -1,6 +1,5 @@
 from django.db import models
 from django.db.models.query import QuerySet
-from django.utils.text import slugify
 
 
 class FollowQuerySet(QuerySet):

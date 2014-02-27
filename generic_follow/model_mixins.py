@@ -7,7 +7,7 @@ class UserFollowMixin(object):
 
     def follow(self, item):
         item_type = ContentType.objects.get_for_model(item)
-        Follow.objects.create(
+        Follow.objects.get_or_create(
             user=self,
             target_content_type=item_type,
             target_object_id=item.pk

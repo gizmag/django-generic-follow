@@ -22,14 +22,23 @@ class FollowManager(models.Manager):
         Follow = get_model('generic_follow', 'Follow')
         follows = list()
         for user in users:
-            list.append(
+            follows.append(
                 Follow(
                     user=user,
                     target_content_type=target_content_type,
-                    target_id=target.pk
+                    target_object_id=target.pk
                 )
             )
-        self.objects.bulk_create(follows)
+        self.bulk_create(follows)
+
+    def delete_batch(self, users, target):
+        target_content_type = ContentType.objects.get_for_model(target)
+
+        self.filter(
+            user__in=users,
+            target_content_type=target_content_type,
+            target_object_id=target.pk,
+        ).delete()
 
     def update_batch(self, users_follow, target):
         Follow = get_model('generic_follow', 'Follow')

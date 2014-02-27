@@ -30,3 +30,12 @@ class FollowManager(models.Manager):
                 )
             )
         self.bulk_create(follows)
+
+    def delete_batch(self, users, target):
+        target_content_type = ContentType.objects.get_for_model(target)
+
+        self.filter(
+            user__in=users,
+            target_content_type=target_content_type,
+            target_object_id=target.pk,
+        ).delete()

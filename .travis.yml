@@ -16,4 +16,4 @@ install:
 
 script:
     - python runtests.py
-    - "flake8 . --exclude='*migrations*' --max-line-length=100 --ignore=F403"
+    - "flake8 . --exclude='*migrations*' --max-line-length=100"

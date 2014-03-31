@@ -47,7 +47,7 @@ class FollowManager(models.Manager):
             target_content_type=target_content_type,
             target_object_id=target.pk
         ).values_list(
-            'pk',
+            'user',
             flat=True
         )
         pending_create_users = list()

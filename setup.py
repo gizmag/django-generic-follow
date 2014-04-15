@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='django-generic-follow',
-    version='0.1.0',
+    version='0.2.0',
     description='Generic follow system for Django',
     author='Gizmag',
     author_email='tech@gizmag.com',

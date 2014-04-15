@@ -17,6 +17,9 @@ class Follow(models.Model):
 
     objects = FollowManager()
 
+    class Meta:
+        unique_together = ('user', 'target_content_type', 'target_object_id')
+
 
 # apply user model mixins to auth.User model
 if getattr(settings, 'AUTH_USER_MODEL', 'auth.User') == 'auth.User':

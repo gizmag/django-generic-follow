@@ -70,6 +70,12 @@ class GenericFollowUserMixinTests(TestCase):
 
         self.assertEqual(self.user.get_follow_set(Photographer), [self.photog])
 
+    def test_user_cant_follow_same_object_twice(self):
+        self.user.follow(self.band)
+        Follow.objects.update_batch(target=self.band,
+                                    users_follow=[(self.user, True)])
+        self.assertEqual(1, len(self.band.get_follower_set()))
+
 
 class GenericFollowTargetMixin(TestCase):
     def setUp(self):

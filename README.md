@@ -131,6 +131,25 @@ Follow.objects.update_batch(
 # user will now be following foals, user2 will now not be following foals
 ```
 
+
+### Signals
+Batch operations emit signals which can be used elsewhere in your project.
+
+`follow_bulk_create`: Sent after `Follow.objects.create_batch()` completes
+
+`follow_bulk_delete`: Sent after `Follow.objects.delete_batch()` completes
+
+These signals send `users` and `target` as kwargs.
+
+Connecting to these signals is the same as any other Django signal
+
+```python
+def bulk_create_callback(sender, **kwargs):
+    ...
+    
+follow_bulk_create.connect(bulk_create_callback, sender=Follow)
+```
+
 ## Contributions
 
 Pull requests / issues welcome!

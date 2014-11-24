@@ -146,7 +146,8 @@ Connecting to these signals is the same as any other Django signal
 ```python
 def bulk_create_callback(sender, **kwargs):
     ...
-    
+
+from generic_follow.signals import follow_bulk_create    
 follow_bulk_create.connect(bulk_create_callback, sender=Follow)
 ```
 

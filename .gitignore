@@ -19,7 +19,8 @@ lib
 lib64
 __pycache__
 
-# Installer logs
+# Installer
+.eggs
 pip-log.txt
 
 # Unit test / coverage reports

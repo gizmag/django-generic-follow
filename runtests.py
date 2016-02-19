@@ -16,12 +16,11 @@ if not settings.configured:
         INSTALLED_APPS=(
             'django.contrib.auth',
             'django.contrib.contenttypes',
-            'south',
             'generic_follow',
             'tests',
         ),
         TEST_RUNNER='django_nose.NoseTestSuiteRunner',
-        PASSWORD_HASHERS = ('django.contrib.auth.hashers.MD5PasswordHasher',)
+        PASSWORD_HASHERS=('django.contrib.auth.hashers.MD5PasswordHasher',)
     )
 
 

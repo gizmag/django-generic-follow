@@ -6,6 +6,7 @@ setup(
     name='django-generic-follow',
     version='0.5.0',
     description='Generic follow system for Django',
+    long_description=open('README.rst').read(),
     author='Gizmag',
     author_email='tech@gizmag.com',
     url='https://github.com/gizmag/django-generic-follow',

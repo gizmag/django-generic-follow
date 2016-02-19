@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.query import QuerySet
 from django.contrib.contenttypes.models import ContentType
-from django.db.models.loading import get_model
+from django.apps import apps
 from .signals import follow_bulk_create, follow_bulk_delete
 
 
@@ -20,7 +20,7 @@ class FollowManager(models.Manager):
 
     def create_batch(self, users, target):
         target_content_type = ContentType.objects.get_for_model(target)
-        Follow = get_model('generic_follow', 'Follow')
+        Follow = apps.get_model('generic_follow', 'Follow')
         follows = list()
         for user in users:
             follows.append(
@@ -44,7 +44,7 @@ class FollowManager(models.Manager):
         follow_bulk_delete.send(sender=self.model, users=users, target=target)
 
     def update_batch(self, users_follow, target):
-        Follow = get_model('generic_follow', 'Follow')
+        Follow = apps.get_model('generic_follow', 'Follow')
         target_content_type = ContentType.objects.get_for_model(target)
         existing_follows = Follow.objects.filter(
             target_content_type=target_content_type,
